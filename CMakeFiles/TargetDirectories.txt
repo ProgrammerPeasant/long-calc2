@@ -1,0 +1,14 @@
+C:/Users/admin/CLionProjects/LongCalc/CMakeFiles/Google_Tests_run.dir
+C:/Users/admin/CLionProjects/LongCalc/CMakeFiles/INSTALL.dir
+C:/Users/admin/CLionProjects/LongCalc/CMakeFiles/ALL_BUILD.dir
+C:/Users/admin/CLionProjects/LongCalc/CMakeFiles/ZERO_CHECK.dir
+C:/Users/admin/CLionProjects/LongCalc/lib/CMakeFiles/INSTALL.dir
+C:/Users/admin/CLionProjects/LongCalc/lib/CMakeFiles/ALL_BUILD.dir
+C:/Users/admin/CLionProjects/LongCalc/lib/googlemock/CMakeFiles/gmock.dir
+C:/Users/admin/CLionProjects/LongCalc/lib/googlemock/CMakeFiles/gmock_main.dir
+C:/Users/admin/CLionProjects/LongCalc/lib/googlemock/CMakeFiles/INSTALL.dir
+C:/Users/admin/CLionProjects/LongCalc/lib/googlemock/CMakeFiles/ALL_BUILD.dir
+C:/Users/admin/CLionProjects/LongCalc/lib/googletest/CMakeFiles/gtest.dir
+C:/Users/admin/CLionProjects/LongCalc/lib/googletest/CMakeFiles/gtest_main.dir
+C:/Users/admin/CLionProjects/LongCalc/lib/googletest/CMakeFiles/INSTALL.dir
+C:/Users/admin/CLionProjects/LongCalc/lib/googletest/CMakeFiles/ALL_BUILD.dir

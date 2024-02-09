@@ -9,9 +9,9 @@
 class InfFloat
 {
 private:
-    char m_sign;
+    char m_sign{};
     std::deque<char> m_number;
-    int m_decimals;
+    int m_decimals{};
 
 public:
     InfFloat();
@@ -21,6 +21,7 @@ public:
 
     InfFloat &operator=(int Num);
     InfFloat &operator=(double Num);
+    InfFloat &operator=(unsigned long long Num);
     InfFloat &operator=(const std::string &strNum);
     InfFloat operator+(const InfFloat &other) const;
     InfFloat operator-(const InfFloat &other) const;
@@ -35,17 +36,26 @@ public:
     bool operator<=(const InfFloat &right) const;
 
     friend std::ostream &operator<<(std::ostream &out, const InfFloat &right);
-    std::string ToString() const;
+    [[nodiscard]] std::string ToString() const;
     void SetPrecision(int prec);
     static std::string PeriodicToCommon(const std::string &str);
-    InfFloat Abs() const;
-    InfFloat Floor() const;
+    [[nodiscard]] InfFloat Abs() const;
+
+    explicit InfFloat(unsigned long long int m_number);
 
 public:
     void LeadZeroes();
-    inline int Decimals() const { return m_decimals; };
-    inline int Ints() const { return m_number.size() - m_decimals; };
-    inline int MemorySize() const { return sizeof(*this) + m_number.size() * sizeof(char); };
+    InfFloat Floor() const;
+    [[nodiscard]] inline int Decimals() const { return m_decimals; };
+    [[nodiscard]] inline int Ints() const { return m_number.size() - m_decimals; };
+    [[nodiscard]] inline int MemorySize() const { return sizeof(*this) + m_number.size() * sizeof(char); };
+    explicit operator int() const { return std::stoi(ToString()); }
+
+    int ToInt() const { return static_cast<int>(*this); }
+
+    explicit operator double() const { return std::stod(ToString()); }
+
+    double ToDouble() const { return static_cast<double>(*this); }
 
     inline static int CharToInt(const char &val) { return (val - '0'); };
     inline static char IntToChar(const int &val) { return (val + '0'); };
@@ -55,4 +65,5 @@ public:
     static InfFloat Subtract(const InfFloat &left, const InfFloat &right);
     static InfFloat Multiply(const InfFloat &left, const InfFloat &right);
 
+    InfFloat sqrtBig(const InfFloat &n, unsigned long long int iter);
 };

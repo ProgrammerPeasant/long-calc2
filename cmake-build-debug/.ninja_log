@@ -1,0 +1,20 @@
+# ninja log v5
+1	176	7291731882843358	build.ninja	731028b30629a47d
+8	1029	7291667928702973	Google_tests/lib/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj	6143538aadc50fd0
+6	101	7291641984675237	Google_tests/CMakeFiles/Google_Tests_run.dir/ConverterTests.cpp.obj	6edccfd10f728796
+5	5899	7291667977257936	Google_tests/lib/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj	46492cb854bf0f33
+5	86	7291725859722787	libLongCalcLib.a	b2ce5d8629674bb6
+2	1642	7291685652713643	Google_tests/CMakeFiles/Google_Tests_run.dir/InfFloatTest.cpp.obj	df71798601a8613f
+10	2782	7291685664128634	lib/libgtest.a	feaeb653d04b7c74
+2782	2825	7291685664573633	lib/libgtest_main.a	743ee5de21237d24
+7	1015	7291647233976178	Google_tests/tests/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj	a09824597980a7d9
+5	5896	7291647282616582	Google_tests/tests/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj	8d3cc74591728e23
+3	705	7291650111051182	CMakeFiles/untitled.dir/lib/InfFloat.cpp.obj	f270d3efb36114cd
+2	444	7291722682346006	CMakeFiles/LongCalcLib.dir/main.cpp.obj	44a991ac752bb204
+5	723	7291650111231174	CMakeFiles/untitled.dir/main.cpp.obj	3b853cd3efe13313
+723	821	7291650112221172	libuntitled.a	d7501600ee808d08
+4	656	7291662475702970	CMakeFiles/LongCalc.dir/main.cpp.obj	c5481348c0cb368a
+1	774	7291662476887953	CMakeFiles/LongCalc.dir/lib/InfFloat.cpp.obj	1962c85d9c48c3fd
+3	146	7291662639228287	libLongCalc.a	ce9886bdf91a297a
+604	3457	7291688433887099	Google_tests/Google_Tests_run.exe	5991aaa34b7ace1a
+7	718	7291722685066006	CMakeFiles/LongCalcLib.dir/lib/InfFloat.cpp.obj	f951fa9d07a8085a

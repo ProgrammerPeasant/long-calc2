@@ -1,4 +1,18 @@
 #include "InfFloat.h"
+#include <cmath>
+
+InfFloat InfFloat::Floor() const
+{
+    if(*this < 0) { return -1;};
+    auto res = InfFloat(*this);
+    for (auto i = res.m_decimals - 1; i >= 0; i--)
+    {
+        res.m_number[i] = '0';
+    }
+
+    return res;
+}
+
 
 int InfFloat::CompareNum(const InfFloat &left, const InfFloat &right)
 {
@@ -56,9 +70,22 @@ int InfFloat::CompareNum(const InfFloat &left, const InfFloat &right)
         }
         return 0;
     }
-
-    return 0;
 };
+InfFloat InfFloat::sqrtBig(const InfFloat &n, unsigned long long iter) {
+    auto precision = pow(10, 16);
+    InfFloat n_float;
+    n_float = (n * precision / InfFloat(iter)).Floor() / precision;
+    auto n_double = InfFloat(sqrt(n_float.ToDouble()));
+    auto x = (InfFloat(InfFloat(pow(10, 16)) * n_double * InfFloat(iter)) / precision).Floor();
+    auto n_iter = n * InfFloat(iter);
+    while (1) {
+        auto tmp = x;
+        x = ((x + (n_iter / x).Floor()) / 2).Floor();
+        if (x == tmp) break;
+    }
+
+    return x;
+}
 
 InfFloat InfFloat::Sum(const InfFloat &left, const InfFloat &right)
 {
@@ -223,6 +250,13 @@ InfFloat &InfFloat::operator=(int Num)
     return *this;
 };
 
+InfFloat &InfFloat::operator=(unsigned long long Num)
+{
+    *this = std::to_string(Num);
+    return *this;
+};
+
+
 InfFloat &InfFloat::operator=(double Num)
 {
     *this = std::to_string(Num);
@@ -301,6 +335,10 @@ InfFloat::InfFloat(const double m_number)
 {
     *this = m_number;
 }
+
+InfFloat::InfFloat(const unsigned long long int m_number) {
+    *this = m_number;
+};
 
 InfFloat::InfFloat()
 {
@@ -485,7 +523,7 @@ InfFloat InfFloat::operator-(const InfFloat &other) const
         }
     }
 
-    return -1;
+    return 0;
 };
 
 InfFloat InfFloat::operator*(const InfFloat &other) const
@@ -662,26 +700,7 @@ bool InfFloat::operator>=(const InfFloat &right) const
 
 bool InfFloat::operator<(const InfFloat &right) const
 {
-    if (((m_sign == '+') && (right.m_sign == '+')))
-    {
-        int check = CompareNum(*this, right);
-        if (check == 2)
-            return true;
-        return false;
-    }
-    if (((m_sign == '-') && (right.m_sign == '-')))
-    {
-        int check = CompareNum(*this, right);
-        if (check == 1)
-            return true;
-        return false;
-    }
-    if (((m_sign == '-') && (right.m_sign == '+')))
-        return true;
-    if (((m_sign == '+') && (right.m_sign == '-')))
-        return false;
-
-    return -1;
+    return not(*this == right) && not(*this > right);
 };
 
 bool InfFloat::operator<=(const InfFloat &right) const
@@ -766,4 +785,5 @@ void InfFloat::LeadZeroes()
         else
             break;
     }
-};
+}
+
