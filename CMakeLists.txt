@@ -3,18 +3,15 @@ project(LongCalc)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(HEADER_FILES
-        InfFloat.h
-)
-
-set(SOURCE_FILES
-        InfFloat.cpp
-)
+enable_testing()
 
 add_library(LongCalcLib STATIC lib/InfFloat.cpp
-        main.cpp
 )
+
+add_executable(LongCalc main.cpp)
+
+target_link_libraries(LongCalc PRIVATE LongCalcLib)
 
 include_directories(LongCalc)
 
-add_subdirectory(Google_tests)
+add_subdirectory("Google_tests")

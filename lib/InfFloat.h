@@ -36,19 +36,19 @@ public:
     bool operator<=(const InfFloat &right) const;
 
     friend std::ostream &operator<<(std::ostream &out, const InfFloat &right);
-    [[nodiscard]] std::string ToString() const;
+    std::string ToString() const;
     void SetPrecision(int prec);
     static std::string PeriodicToCommon(const std::string &str);
-    [[nodiscard]] InfFloat Abs() const;
+    InfFloat Abs() const;
 
     explicit InfFloat(unsigned long long int m_number);
 
 public:
     void LeadZeroes();
     InfFloat Floor() const;
-    [[nodiscard]] inline int Decimals() const { return m_decimals; };
-    [[nodiscard]] inline int Ints() const { return m_number.size() - m_decimals; };
-    [[nodiscard]] inline int MemorySize() const { return sizeof(*this) + m_number.size() * sizeof(char); };
+    inline int Decimals() const { return m_decimals; };
+    inline int Ints() const { return m_number.size() - m_decimals; };
+    inline int MemorySize() const { return sizeof(*this) + m_number.size() * sizeof(char); };
     explicit operator int() const { return std::stoi(ToString()); }
 
     int ToInt() const { return static_cast<int>(*this); }
@@ -64,6 +64,7 @@ public:
     static InfFloat Sum(const InfFloat &left, const InfFloat &right);
     static InfFloat Subtract(const InfFloat &left, const InfFloat &right);
     static InfFloat Multiply(const InfFloat &left, const InfFloat &right);
-
-    InfFloat sqrtBig(const InfFloat &n, unsigned long long int iter);
 };
+
+InfFloat operator ""_if(unsigned long long);
+InfFloat sqrtBig(const InfFloat &n, unsigned long long int iter);

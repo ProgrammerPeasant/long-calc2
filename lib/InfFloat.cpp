@@ -1,6 +1,20 @@
 #include "InfFloat.h"
 #include <cmath>
 
+namespace {
+    InfFloat power(const InfFloat &num, const unsigned int &deg) {
+        if (deg == 0) {
+            return 1_if;
+        } else if (deg == 1) {
+            return num;
+        } else if (deg % 2 == 0) {
+            InfFloat tmp = power(num, deg / 2);
+            return tmp * tmp;
+        }
+        return num * power(num, deg - 1);
+    }
+}
+
 InfFloat InfFloat::Floor() const
 {
     if(*this < 0) { return -1;};
@@ -71,21 +85,6 @@ int InfFloat::CompareNum(const InfFloat &left, const InfFloat &right)
         return 0;
     }
 };
-InfFloat InfFloat::sqrtBig(const InfFloat &n, unsigned long long iter) {
-    auto precision = pow(10, 16);
-    InfFloat n_float;
-    n_float = (n * precision / InfFloat(iter)).Floor() / precision;
-    auto n_double = InfFloat(sqrt(n_float.ToDouble()));
-    auto x = (InfFloat(InfFloat(pow(10, 16)) * n_double * InfFloat(iter)) / precision).Floor();
-    auto n_iter = n * InfFloat(iter);
-    while (1) {
-        auto tmp = x;
-        x = ((x + (n_iter / x).Floor()) / 2).Floor();
-        if (x == tmp) break;
-    }
-
-    return x;
-}
 
 InfFloat InfFloat::Sum(const InfFloat &left, const InfFloat &right)
 {
@@ -192,6 +191,10 @@ InfFloat InfFloat::Abs() const
     auto res = InfFloat(*this);
     res.m_sign = '+';
     return res;
+}
+
+InfFloat operator ""_if(unsigned long long data) {
+    return InfFloat(data);
 }
 
 InfFloat operator""_inf(const char* str, size_t size) {
@@ -787,3 +790,18 @@ void InfFloat::LeadZeroes()
     }
 }
 
+InfFloat sqrtBig(const InfFloat &n, unsigned long long iter) {
+    auto precision = pow(10, 16);
+    InfFloat n_float;
+    n_float = (n * precision / InfFloat(iter)).Floor() / precision;
+    auto n_double = InfFloat(sqrt(n_float.ToDouble()));
+    auto x = (InfFloat(InfFloat(pow(10, 16)) * n_double * InfFloat(iter)) / precision).Floor();
+    auto n_iter = n * InfFloat(iter);
+    while (1) {
+        auto tmp = x;
+        x = ((x + (n_iter / x).Floor()) / 2).Floor();
+        if (x == tmp) break;
+    }
+
+    return x;
+}
