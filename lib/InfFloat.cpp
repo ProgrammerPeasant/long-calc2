@@ -2,17 +2,7 @@
 #include <cmath>
 
 namespace {
-    InfFloat power(const InfFloat &num, const unsigned int &deg) {
-        if (deg == 0) {
-            return 1_if;
-        } else if (deg == 1) {
-            return num;
-        } else if (deg % 2 == 0) {
-            InfFloat tmp = power(num, deg / 2);
-            return tmp * tmp;
-        }
-        return num * power(num, deg - 1);
-    }
+
 }
 
 InfFloat InfFloat::Floor() const
@@ -805,3 +795,44 @@ InfFloat sqrtBig(const InfFloat &n, unsigned long long iter) {
 
     return x;
 }
+
+InfFloat power(const InfFloat& num, const unsigned int &deg) {
+    if (deg == 0) {
+        return 1_if;
+    } else if (deg == 1) {
+        return num;
+    } else if (deg % 2 == 0) {
+        InfFloat tmp = power(num, deg / 2);
+        return tmp * tmp;
+    }
+    return num * power(num, deg - 1);
+}
+
+InfFloat root(const InfFloat &num, const unsigned int &deg) {
+        if (num < 0) {
+            return {};
+        }
+        if (deg == 0) {
+            return 1_if;
+        }
+        if (deg == 1) {
+            return num;
+        }
+        InfFloat A = num.Abs();
+        InfFloat precision(0);
+        precision.SetPrecision(num.Decimals() + deg + 40); //num.precision() + 40 + deg);
+        InfFloat eps = 1;
+        InfFloat Xk = power((10_if), (A.Ints() + deg - 1) / deg) + precision;;
+        InfFloat prev = 1_if;
+        InfFloat dec_deg = InfFloat(static_cast<unsigned long long>(deg - 1));
+        InfFloat inv_deg = (1_if + precision) / InfFloat(static_cast<unsigned long long>(deg));
+        do {
+            prev = Xk;
+            Xk = inv_deg * (dec_deg * Xk + A / power(Xk, deg - 1));
+        } while ((Xk - prev).Abs() >= eps);
+        Xk.SetPrecision(num.Decimals());
+        InfFloat answer = Xk;
+
+        return answer;
+    }
+

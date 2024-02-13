@@ -63,6 +63,7 @@ TEST(InfFloatTests, ArithmeticOperators) {
     // Test division
     result = num1 / num2;
     EXPECT_EQ(result.ToString(), "0.156");
+
 }
 
 TEST(InfFloatTests, ComparisonOperators) {
@@ -90,6 +91,11 @@ TEST(InfFloatTests, ComparisonOperators) {
     // Test less than or equal to
     num2 = "123.456";
     EXPECT_TRUE(num1 <= num2);
+
+    num1 = InfFloat('0');
+    num2 = InfFloat("-0");
+    EXPECT_TRUE(num1 == num2);
+
 }
 
 TEST(InfFloatTests, ToString) {

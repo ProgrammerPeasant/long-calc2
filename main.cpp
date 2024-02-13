@@ -8,6 +8,7 @@ long double calcPi(unsigned long long precision) {
     zero.SetPrecision(precision + 5);
     auto epsilon = 1_if;
     auto c = InfFloat("10939058860032000");
+    //power(4);
     InfFloat a_sum = 1_if + zero;
     InfFloat b_sum = zero;
     auto k = 1_if;
@@ -56,9 +57,8 @@ int main() {
     //std::cout << pi << std::endl;
     //auto d = sqrt(InfFloat("10005000000"), 1000000);
     double PI = 3, n = 2, sign = 1;
-    calcPi(100);
-    std::clock_t start = std::clock();
-    //InfFloat("123456789122345678912234567891223456789122345678912234567891223456789122345678912234567891223456789122345678912") / InfFloat("123456789122345678912234567891223456789122345122345678912234567891223456789122345678912");
-    std::clock_t end = std::clock();
-    std::cout << 1.0 * (end - start) / CLOCKS_PER_SEC;
+    //calcPi(100);
+    InfFloat x = 2;
+    std::cout << power(2, 10) << std::endl;
+    std::cout << sqrtBig(InfFloat("200000000000000"), 10000000000);
 }
