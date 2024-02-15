@@ -780,13 +780,13 @@ void InfFloat::LeadZeroes()
     }
 }
 
-InfFloat sqrtBig(const InfFloat &n, unsigned long long iter) {
+InfFloat sqrtBig(const InfFloat &n, const InfFloat& iter) {
     auto precision = pow(10, 16);
     InfFloat n_float;
-    n_float = (n * precision / InfFloat(iter)).Floor() / precision;
+    n_float = (n * precision / iter).Floor() / precision;
     auto n_double = InfFloat(sqrt(n_float.ToDouble()));
-    auto x = (InfFloat(InfFloat(pow(10, 16)) * n_double * InfFloat(iter)) / precision).Floor();
-    auto n_iter = n * InfFloat(iter);
+    auto x = (InfFloat(InfFloat(pow(10, 16)) * n_double * iter) / precision).Floor();
+    auto n_iter = n * iter;
     while (1) {
         auto tmp = x;
         x = ((x + (n_iter / x).Floor()) / 2).Floor();

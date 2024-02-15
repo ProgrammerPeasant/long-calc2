@@ -1,64 +1,63 @@
 #include "lib/InfFloat.h"
 #include <iostream>
-#include <cmath>
-#include <ctime>
+#include <functional>
+#include <chrono>
 
-long double calcPi(unsigned long long precision) {
-    InfFloat zero = 0_if;
-    zero.SetPrecision(precision + 5);
-    auto epsilon = 1_if;
-    auto c = InfFloat("10939058860032000");
-    //power(4);
-    InfFloat a_sum = 1_if + zero;
-    InfFloat b_sum = zero;
-    auto k = 1_if;
-    InfFloat ak = 1_if + zero;
-    auto c_d = sqrtBig(InfFloat(10005 * precision), precision);
-    do {
-        ak = InfFloat(-1) * ak * ((k * 6_if - 5_if) * (k * 2_if - 1_if) * (k * 6_if - 1_if));
-        ak = ak / (k * k * k * c);
-        a_sum = a_sum + ak;
-        b_sum = b_sum + k * ak;
-        k = k + 1_if;
-    } while (ak.Abs() >= epsilon);
-    InfFloat tmp = 13591409_if * a_sum + 545140134_if * b_sum;
+auto cons = InfFloat("10939058860032000");
 
-    std::cout << c_d / tmp;
+InfFloat pi_chud(const unsigned digits) {
+    InfFloat one(1), six(6), five(5), two(2), mone(-1);
+    InfFloat otf("13591409.0"), fff("545140134.0");
+
+    std::function<std::tuple<InfFloat, InfFloat, InfFloat>(const int, const int)> bs;
+    bs = [&](const int a, const int b)
+    {
+        InfFloat Pab, Qab, Tab;
+        Pab.SetPrecision(100);
+        int m;
+        if (b - a == 1)
+        {
+            InfFloat A(a);
+            if (a == 0) Pab = one, Qab = one;
+            else {
+                Pab = (six * A - five) * (two * A - one) * (six * A - one);
+                Qab = A * A * A * cons;
+            }
+            Tab = Pab * (otf + fff * A);
+            if (a & 1) Tab = Tab * mone;
+        }
+        else
+        {
+            m = (a + b) / 2;
+            InfFloat Pam, Qam, Tam, Pmb, Qmb, Tmb;
+            std::tie(Pam, Qam, Tam) = bs(a, m);
+            std::tie(Pmb, Qmb, Tmb) = bs(m, b);
+
+            Pab = Pam * Pmb;
+            Qab = Qam * Qmb;
+            Tab = Qmb * Tam + Pam * Tmb;
+        }
+
+        return std::make_tuple(Pab, Qab, Tab);
+    };
+
+    unsigned N = digits / 13 + 1;
+    InfFloat P, Q, T;
+    std::tie(P, Q, T) = bs(0, N);
+    InfFloat one_squared = power(InfFloat(10), digits);
+    InfFloat sqrtC = sqrtBig(one_squared * InfFloat(10005), one_squared);
+    InfFloat answer = Q * InfFloat(426880) * sqrtC / T;
+    answer.SetPrecision(digits);
+    answer = answer / power(InfFloat(10), digits);
+
+    return answer;
+
 }
-
-//InfFloat chudnovsky_algorithm(unsigned long long iterations) {
-//    InfFloat k = 1;
-//    InfFloat a_k = InfFloat(iterations);
-//    InfFloat a_sum = InfFloat(iterations);
-//    InfFloat b_sum = 0;
-//    InfFloat one = 1;
-//    InfFloat two = 2;
-//    InfFloat five = 5;
-//    InfFloat six = 6;
-//    auto c = InfFloat("10939058860032000");
-//    while (true) {
-//        a_k = a_k * -1 * (six * k - five) * (two * k - one) * (six * k - one);
-//        a_k = (a_k / (k * k * k * c)).Floor();
-//        a_sum = a_sum + a_k;
-//        b_sum = b_sum + k * a_k;
-//        k = k + 1;
-//        if (a_k == 0)
-//            break;
-//    }
-//    InfFloat total = InfFloat("13591409") * a_sum + InfFloat("545140134") * b_sum;
-//    InfFloat Pi = ((InfFloat("426880") * sqrt1(InfFloat("10050") * InfFloat(iterations), iterations) * InfFloat(iterations)) /
-//                   total).Floor();
-//    return Pi;
-//}
-
 
 int main() {
     unsigned long long iter = 10000000000;  // Adjust the number of iterations for desired precision
-    //std::cout << pi << std::endl;
-    //auto d = sqrt(InfFloat("10005000000"), 1000000);
-    double PI = 3, n = 2, sign = 1;
-    //calcPi(100);
-    InfFloat x = 2;
-    std::cout << power(2, 10) << std::endl;
-    std::cout << sqrtBig(InfFloat("200000000000000"), 10000000000);
+    auto start = std::chrono::steady_clock::now();
+    std::cout << pi_chud(1000) << std::endl;
+    auto end = std::chrono::steady_clock::now();
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms" << std::endl;
 }

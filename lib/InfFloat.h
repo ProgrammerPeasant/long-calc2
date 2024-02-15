@@ -67,9 +67,5 @@ public:
 };
 
 InfFloat operator ""_if(unsigned long long);
-InfFloat sqrtBig(const InfFloat &n, unsigned long long int iter);
+InfFloat sqrtBig(const InfFloat &n, const InfFloat &iter);
 InfFloat power(const InfFloat &num, const unsigned int &deg);
-
-InfFloat squareRoot(const InfFloat &number, int precision);
-
-InfFloat root(const InfFloat &num, const unsigned int &presicion);
