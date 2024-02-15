@@ -316,7 +316,10 @@ InfFloat &InfFloat::operator=(const std::string &strNum)
 
 InfFloat::InfFloat(const std::string &m_number)
 {
-    *this = PeriodicToCommon(m_number);
+    if (m_number == "-0" || m_number == "+0")
+        *this = 0;
+    else
+        *this = PeriodicToCommon(m_number);
 }
 
 InfFloat::InfFloat(const int m_number)
@@ -808,31 +811,4 @@ InfFloat power(const InfFloat& num, const unsigned int &deg) {
     return num * power(num, deg - 1);
 }
 
-InfFloat root(const InfFloat &num, const unsigned int &deg) {
-        if (num < 0) {
-            return {};
-        }
-        if (deg == 0) {
-            return 1_if;
-        }
-        if (deg == 1) {
-            return num;
-        }
-        InfFloat A = num.Abs();
-        InfFloat precision(0);
-        precision.SetPrecision(num.Decimals() + deg + 40); //num.precision() + 40 + deg);
-        InfFloat eps = 1;
-        InfFloat Xk = power((10_if), (A.Ints() + deg - 1) / deg) + precision;;
-        InfFloat prev = 1_if;
-        InfFloat dec_deg = InfFloat(static_cast<unsigned long long>(deg - 1));
-        InfFloat inv_deg = (1_if + precision) / InfFloat(static_cast<unsigned long long>(deg));
-        do {
-            prev = Xk;
-            Xk = inv_deg * (dec_deg * Xk + A / power(Xk, deg - 1));
-        } while ((Xk - prev).Abs() >= eps);
-        Xk.SetPrecision(num.Decimals());
-        InfFloat answer = Xk;
-
-        return answer;
-    }
 

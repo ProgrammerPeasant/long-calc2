@@ -55,9 +55,10 @@ InfFloat pi_chud(const unsigned digits) {
 }
 
 int main() {
-    unsigned long long iter = 10000000000;  // Adjust the number of iterations for desired precision
+    int len;
+    std::cin >> len;
     auto start = std::chrono::steady_clock::now();
-    std::cout << pi_chud(1000) << std::endl;
+    std::cout << pi_chud(len) << std::endl;
     auto end = std::chrono::steady_clock::now();
     std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms" << std::endl;
 }

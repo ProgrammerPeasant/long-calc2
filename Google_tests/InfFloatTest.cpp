@@ -56,13 +56,20 @@ TEST(InfFloatTests, ArithmeticOperators) {
     result = num1 - num2;
     EXPECT_EQ(result.ToString(), "-665.556");
 
+    num2 = "-789.012";
+    result = num1 + num2;
+    EXPECT_EQ(result.ToString(), "-665.556");
+
     // Test multiplication
     result = num1 * num2;
+    EXPECT_EQ(result.ToString(), "-97408.265472");
+
+    result = num1 * -1 * num2;
     EXPECT_EQ(result.ToString(), "97408.265472");
 
     // Test division
     result = num1 / num2;
-    EXPECT_EQ(result.ToString(), "0.156");
+    EXPECT_EQ(result.ToString(), "-0.156");
 
 }
 
@@ -70,11 +77,15 @@ TEST(InfFloatTests, ComparisonOperators) {
     // Test equality
     InfFloat num1("123.456");
     InfFloat num2("123.456");
+    InfFloat num3(123.456);
     EXPECT_TRUE(num1 == num2);
 
     // Test inequality
     num2 = "123.457";
     EXPECT_TRUE(num1 != num2);
+
+    int c = (num2 == num3);
+    EXPECT_FALSE(c);
 
     // Test greater than
     num2 = "123.455";
@@ -92,9 +103,13 @@ TEST(InfFloatTests, ComparisonOperators) {
     num2 = "123.456";
     EXPECT_TRUE(num1 <= num2);
 
-    num1 = InfFloat('0');
-    num2 = InfFloat("-0");
-    EXPECT_TRUE(num1 == num2);
+    num2 = "-12";
+    EXPECT_TRUE(num2 <= num1);
+
+    num1 = "+0";
+    num2 = "-0";
+    c = (InfFloat("+0") == InfFloat("-0"));
+    EXPECT_TRUE(c);
 
 }
 
@@ -172,4 +187,15 @@ TEST(InfFloatTests, CompareNum) {
 
     num2 = "123.457";
     EXPECT_EQ(InfFloat::CompareNum(num1, num2), 2);
+}
+
+TEST(InfFloatTests, Functions) {
+    InfFloat num1("203415");
+    InfFloat num2("156776");
+
+    InfFloat result = sqrtBig(num1, num2);
+    EXPECT_EQ(result.ToString(), "178579.000000000000");
+
+    result = power(num1, 23);
+    EXPECT_EQ(result.ToString(), "123825025336305114587608392911569999618173982486205838063817361561957506573598840594444073183624874706473195552825927734375");
 }
