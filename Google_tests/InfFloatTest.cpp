@@ -6,6 +6,9 @@ TEST(InfFloatTests, Construction) {
     InfFloat num1;
     EXPECT_EQ(num1.ToString(), "");
 
+    num1 = 0;
+    EXPECT_EQ(num1.ToString(), "0");
+
     // Test constructor from string
     InfFloat num2("123.456000");
     EXPECT_EQ(num2.ToString(), "123.456000");
@@ -49,6 +52,7 @@ TEST(InfFloatTests, ArithmeticOperators) {
     // Test addition
     InfFloat num1("123.456");
     InfFloat num2("789.012");
+    InfFloat num3("1234.34");
     InfFloat result = num1 + num2;
     EXPECT_EQ(result.ToString(), "912.468");
 
@@ -59,6 +63,33 @@ TEST(InfFloatTests, ArithmeticOperators) {
     num2 = "-789.012";
     result = num1 + num2;
     EXPECT_EQ(result.ToString(), "-665.556");
+
+    result = num2 - num1;
+    EXPECT_EQ(result.ToString(), "-912.468");
+
+    result = num1 + num3;
+    EXPECT_EQ(result.ToString(), "1357.796");
+
+    result = num3 + num1;
+    EXPECT_EQ(result.ToString(), "1357.796");
+
+    result = num1 - num3;
+    EXPECT_EQ(result.ToString(), "-1110.884");
+
+    result = num3 - num1;
+    EXPECT_EQ(result.ToString(), "1110.884");
+
+    result = num3 - num2;
+    EXPECT_EQ(result.ToString(), "2023.352");
+
+    result = num2 + num1;
+    EXPECT_EQ(result.ToString(), "-665.556");
+
+    num1 = "-123.456";
+    result = num1 - num2;
+    EXPECT_EQ(result.ToString(), "665.556");
+
+    num1 = "123.456";
 
     // Test multiplication
     result = num1 * num2;
@@ -106,8 +137,13 @@ TEST(InfFloatTests, ComparisonOperators) {
     num2 = "-12";
     EXPECT_TRUE(num2 <= num1);
 
-    num1 = "+0";
-    num2 = "-0";
+    EXPECT_FALSE(num2 > num1);
+
+    EXPECT_TRUE(num1 > num2);
+
+    num1 = "-13";
+    EXPECT_TRUE(num2 > num1);
+
     c = (InfFloat("+0") == InfFloat("-0"));
     EXPECT_TRUE(c);
 
@@ -181,6 +217,9 @@ TEST(InfFloatTests, CompareNum) {
     // Test CompareNum() method
     InfFloat num1("123.456");
     InfFloat num2("789.012");
+    InfFloat num3("123.1234");
+
+    EXPECT_EQ(InfFloat::CompareNum(num3, num1), 2);
 
     num2 = "123.456";
     EXPECT_EQ(InfFloat::CompareNum(num1, num2), 0);
@@ -198,4 +237,9 @@ TEST(InfFloatTests, Functions) {
 
     result = power(num1, 23);
     EXPECT_EQ(result.ToString(), "123825025336305114587608392911569999618173982486205838063817361561957506573598840594444073183624874706473195552825927734375");
+
+    result = power(num1, 0);
+    EXPECT_EQ(result.ToString(), "1");
+
+    EXPECT_TRUE(std::cout << result);
 }
